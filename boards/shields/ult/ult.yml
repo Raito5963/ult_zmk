@@ -1,0 +1,13 @@
+file_format: "1"
+id: ult
+name: Ult
+type: shield
+url: https://github.com/yourusername/ult
+requires: [xiao_ble]
+exposes: [i2c]
+features:
+  - encoder
+  - keys
+siblings:
+  - ult_left
+  - ult_right

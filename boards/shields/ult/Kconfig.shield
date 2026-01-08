@@ -1,0 +1,5 @@
+config SHIELD_ULT_LEFT
+    def_bool $(shields_list_contains,ult_left)
+
+config SHIELD_ULT_RIGHT
+    def_bool $(shields_list_contains,ult_right)

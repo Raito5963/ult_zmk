@@ -1,0 +1,15 @@
+if SHIELD_ULT_LEFT || SHIELD_ULT_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "Ult"
+
+config ZMK_SPLIT
+    default y
+
+# 左側をセントラル（PCと接続する側）とする場合のデフォルト
+if SHIELD_ULT_LEFT
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+endif
+
+endif

@@ -1,0 +1,41 @@
+#include "ult.dtsi"
+
+&kscan0 {
+    compatible = "zmk,kscan-gpio-charlieplex";
+    wakeup-source;
+    interrupt-gpios = <&gpio1 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // D8 / Pin 9 / INTR
+
+    // IO0=P0.02, IO1=P0.03, IO2=P0.28, IO3=P0.29, IO4=P1.11, IO5=P1.12
+    gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>,
+            <&gpio0 3 GPIO_ACTIVE_HIGH>,
+            <&gpio0 28 GPIO_ACTIVE_HIGH>,
+            <&gpio0 29 GPIO_ACTIVE_HIGH>,
+            <&gpio1 11 GPIO_ACTIVE_HIGH>,
+            <&gpio1 12 GPIO_ACTIVE_HIGH>;
+};
+
+&xiao_serial { status = "disabled"; }; // Disable UART to avoid pin conflicts
+
+/ {
+    left_encoder_1: encoder_left_1 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D10
+        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D9
+        steps = <80>;
+        status = "okay";
+    };
+
+    left_encoder_2: encoder_left_2 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // NFC1
+        b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // NFC2
+        steps = <80>;
+        status = "okay";
+    };
+
+    sensors: sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&left_encoder_1 &left_encoder_2>;
+        triggers-per-rotation = <20>;
+    };
+};

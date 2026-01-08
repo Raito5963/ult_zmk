@@ -1,0 +1,45 @@
+#include "ult.dtsi"
+
+&default_transform {
+    col-offset = <6>;
+};
+
+&kscan0 {
+    compatible = "zmk,kscan-gpio-charlieplex";
+    wakeup-source;
+    interrupt-gpios = <&gpio1 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+
+    gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>,
+            <&gpio0 3 GPIO_ACTIVE_HIGH>,
+            <&gpio0 28 GPIO_ACTIVE_HIGH>,
+            <&gpio0 29 GPIO_ACTIVE_HIGH>,
+            <&gpio1 11 GPIO_ACTIVE_HIGH>,
+            <&gpio1 12 GPIO_ACTIVE_HIGH>;
+};
+
+&xiao_serial { status = "disabled"; };
+
+/ {
+    // Right side encoders (Assuming same pinout as left if reversible PCB)
+    right_encoder_1: encoder_right_1 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        steps = <80>;
+        status = "okay";
+    };
+
+    right_encoder_2: encoder_right_2 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        steps = <80>;
+        status = "okay";
+    };
+
+    sensors: sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&right_encoder_1 &right_encoder_2>;
+        triggers-per-rotation = <20>;
+    };
+};
