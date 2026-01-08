@@ -18,10 +18,14 @@
         >;
     };
 
-    // ここで kscan0 を定義します
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
-        // 以下のピン定義は overlay 側で行うため、ここでは compatible のみ
+    };
+
+    // 左右合わせて4つのエンコーダーを扱うための空の定義
+    sensors: sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <>;
     };
 };
