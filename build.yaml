@@ -19,9 +19,7 @@
 #
 ---
 include:
- - board: seeeduino_xiao_ble
-   shield: spet6_right
- - board: seeeduino_xiao_ble
-   shield: spet6_left
- - board: seeeduino_xiao_ble
-   shield: settings_reset
+ - board: xiao_ble
+   shield: ult_right
+ - board: xiao_ble
+   shield: ult_left
