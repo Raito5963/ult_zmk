@@ -1,7 +1,7 @@
 #include "ult.dtsi"
 
 &kscan0 {
-    interrupt-gpios = <&gpio1 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // D8
+    // interrupt-gpios = <&gpio1 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // D8
     gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>,  // IO 0
             <&gpio0 3 GPIO_ACTIVE_HIGH>,  // IO 1
             <&gpio0 28 GPIO_ACTIVE_HIGH>, // IO 2
