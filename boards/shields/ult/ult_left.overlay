@@ -1,18 +1,29 @@
 #include "ult.dtsi"
 
-&kscan0 {
-    interrupt-gpios = <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // D8
-    gpios = <&xiao_d 0 GPIO_ACTIVE_HIGH>,   // A0 (P0.02)
-            <&xiao_d 1 GPIO_ACTIVE_HIGH>,   // A1 (P0.03)
-            <&xiao_d 2 GPIO_ACTIVE_HIGH>,   // A2 (P0.28)
-            <&xiao_d 3 GPIO_ACTIVE_HIGH>,   // A3 (P0.29)
-            <&xiao_d 6 GPIO_ACTIVE_HIGH>,   // D6 (P1.11)
-            <&xiao_d 7 GPIO_ACTIVE_HIGH>;   // D7 (P1.12)
+/* Zephyr 4.1 新仕様: NFCピンをGPIOとして使用する設定 */
+&uicr {
+    nfct-pins-as-gpios;
 };
 
-&xiao_serial { status = "disabled"; }; // Disable UART to avoid pin conflicts
+/* Zephyr 4.1 新仕様: 電源レギュレータ設定 */
+&reg1 {
+    regulator-initial-mode = <NRF5X_REG_MODE_DCDC>;
+};
 
 / {
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-charlieplex";
+        wakeup-source;
+        
+        interrupt-gpios = <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; 
+        gpios = <&xiao_d 0 GPIO_ACTIVE_HIGH>,   // A0
+                <&xiao_d 1 GPIO_ACTIVE_HIGH>,   // A1
+                <&xiao_d 2 GPIO_ACTIVE_HIGH>,   // A2
+                <&xiao_d 3 GPIO_ACTIVE_HIGH>,   // A3
+                <&xiao_d 6 GPIO_ACTIVE_HIGH>,   // D6
+                <&xiao_d 7 GPIO_ACTIVE_HIGH>;   // D7
+    };
+
     left_encoder_1: encoder_left_1 {
         compatible = "alps,ec11";
         a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D10
@@ -35,3 +46,5 @@
         triggers-per-rotation = <20>;
     };
 };
+
+&xiao_serial { status = "disabled"; };
