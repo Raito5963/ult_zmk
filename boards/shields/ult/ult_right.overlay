@@ -1,7 +1,7 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include "ult.dtsi"
 
-/* &参照はルートノードの外側に記述します */
+/* &参照はルートノードの外側に記述 */
 &uicr {
     nfct-pins-as-gpios;
 };
@@ -15,15 +15,15 @@
 / {
     chosen {
         zmk,kscan = &kscan0;
-        /* 右手用のミラー変換を適用 */
-        zmk,matrix-transform = &right_transform;
+        /* 左手と同じトランスフォーム定義を使用 */
+        zmk,matrix-transform = &default_transform;
     };
 
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
         
-        /* 左手側と同じピンの並び順（IO 0~5の物理対応を維持） */
+        /* 物理ピンの並び順（IO 0~5）を左手と完全に一致させる */
         gpios = <&gpio1 12 GPIO_ACTIVE_HIGH>, // D7
                 <&gpio1 11 GPIO_ACTIVE_HIGH>, // D6
                 <&gpio0 29 GPIO_ACTIVE_HIGH>, // D3
