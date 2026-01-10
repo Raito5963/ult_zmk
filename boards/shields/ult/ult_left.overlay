@@ -1,15 +1,21 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include "ult.dtsi"
 
-/* Zephyr 4.1 / nRF52840: 
-   ラベル参照 (&uicr) でエラーが出る場合は、フルパスで指定します */
-&{/uicr} {
+/* * Zephyr 4.1 (nRF52): UICRへの正しいパス指定 
+ * /uicr ではなく、SoC定義に基づいたラベルまたは階層を使用します。
+ */
+&uicr {
     nfct-pins-as-gpios;
 };
 
-&{/soc/peripheral@40000000/regulator@4000} {
-    regulator-initial-mode = <0x01>; /* NRF5X_REG_MODE_DCDC */
+/* * DC/DC設定: 
+ * NRF5X_REG_MODE_DCDC 等の定数がエラーになる場合は 1 を直接指定します。
+ */
+&reg1 {
+    regulator-initial-mode = <1>; 
 };
+
+&xiao_serial { status = "disabled"; };
 
 / {
     chosen {
@@ -20,7 +26,7 @@
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
         
-        /* D8 = P0.26 なので &gpio0 26 に修正（回路図準拠） */
+        /* D8 (P0.26) */
         interrupt-gpios = <&gpio0 26 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; 
         
         gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>,   // A0
@@ -31,6 +37,7 @@
                 <&gpio1 12 GPIO_ACTIVE_HIGH>;  // D7
     };
 
+    /* エンコーダー定義 (重複を削除して一つにまとめました) */
     left_encoder_1: encoder_left_1 {
         compatible = "alps,ec11";
         a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D10
@@ -53,5 +60,3 @@
         triggers-per-rotation = <20>;
     };
 };
-
-&xiao_serial { status = "disabled"; };
