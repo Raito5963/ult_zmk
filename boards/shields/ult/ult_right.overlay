@@ -1,12 +1,11 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include "ult.dtsi"
 
-/* Zephyr 4.1 対応: NFCピンをGPIO化 */
+/* &参照はルートノードの外側に記述します */
 &uicr {
     nfct-pins-as-gpios;
 };
 
-[cite_start]/* Zephyr 4.1 対応: DCDC有効化 [cite: 6] */
 &reg1 {
     regulator-initial-mode = <1>;
 };
@@ -16,27 +15,28 @@
 / {
     chosen {
         zmk,kscan = &kscan0;
-        /* 右手用のマトリックス変換を適用するためにトランスフォームをオフセットする場合などはここ */
+        /* 右手用のミラー変換を適用 */
+        zmk,matrix-transform = &right_transform;
     };
 
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
         
-        [cite_start]/* 左手側と同じピンの並び順（物理的なIO 0~5の対応を維持） [cite: 10, 11] */
-        gpios = <&gpio1 12 GPIO_ACTIVE_HIGH>, // D7 (P1.12)
-                <&gpio1 11 GPIO_ACTIVE_HIGH>, // D6 (P1.11)
-                <&gpio0 29 GPIO_ACTIVE_HIGH>, // D3 (P0.29)
-                <&gpio0 28 GPIO_ACTIVE_HIGH>, // D2 (P0.28)
-                <&gpio0 3  GPIO_ACTIVE_HIGH>, // D1 (P0.03)
-                <&gpio0 2  GPIO_ACTIVE_HIGH>; // D0 (P0.02)
+        /* 左手側と同じピンの並び順（IO 0~5の物理対応を維持） */
+        gpios = <&gpio1 12 GPIO_ACTIVE_HIGH>, // D7
+                <&gpio1 11 GPIO_ACTIVE_HIGH>, // D6
+                <&gpio0 29 GPIO_ACTIVE_HIGH>, // D3
+                <&gpio0 28 GPIO_ACTIVE_HIGH>, // D2
+                <&gpio0 3  GPIO_ACTIVE_HIGH>, // D1
+                <&gpio0 2  GPIO_ACTIVE_HIGH>; // D0
     };
 
-    /* 右手側エンコーダー1 */
+    /* 右手側エンコーダー1 (D10, D9) */
     right_encoder_1: encoder_right_1 {
         compatible = "alps,ec11";
-        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D10
-        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D9
+        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <80>;
         status = "okay";
     };
@@ -44,8 +44,8 @@
     /* 右手側エンコーダー2 (NFCピン) */
     right_encoder_2: encoder_right_2 {
         compatible = "alps,ec11";
-        a-gpios = <&gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // NFC1
-        b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // NFC2
+        a-gpios = <&gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <80>;
         status = "okay";
     };
