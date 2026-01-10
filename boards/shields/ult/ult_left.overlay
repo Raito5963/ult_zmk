@@ -1,13 +1,13 @@
 #include "ult.dtsi"
 
 &kscan0 {
-    interrupt-gpios = <&gpio1 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // D8
-    gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>,  // IO 0
-            <&gpio0 3 GPIO_ACTIVE_HIGH>,  // IO 1
-            <&gpio0 28 GPIO_ACTIVE_HIGH>, // IO 2
-            <&gpio0 29 GPIO_ACTIVE_HIGH>, // IO 3
-            <&gpio1 11 GPIO_ACTIVE_HIGH>, // IO 4
-            <&gpio1 12 GPIO_ACTIVE_HIGH>; // IO 5
+    interrupt-gpios = <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // D8
+    gpios = <&xiao_d 0 GPIO_ACTIVE_HIGH>,   // A0 (P0.02)
+            <&xiao_d 1 GPIO_ACTIVE_HIGH>,   // A1 (P0.03)
+            <&xiao_d 2 GPIO_ACTIVE_HIGH>,   // A2 (P0.28)
+            <&xiao_d 3 GPIO_ACTIVE_HIGH>,   // A3 (P0.29)
+            <&xiao_d 6 GPIO_ACTIVE_HIGH>,   // D6 (P1.11)
+            <&xiao_d 7 GPIO_ACTIVE_HIGH>;   // D7 (P1.12)
 };
 
 &xiao_serial { status = "disabled"; }; // Disable UART to avoid pin conflicts
