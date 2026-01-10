@@ -1,18 +1,14 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include "ult.dtsi"
 
-/* * Zephyr 4.1 (nRF52): UICRへの正しいパス指定 
- * /uicr ではなく、SoC定義に基づいたラベルまたは階層を使用します。
- */
+/* Zephyr 4.1 (HWMv2) 対応: NFCピンをGPIO化 */
 &uicr {
     nfct-pins-as-gpios;
 };
 
-/* * DC/DC設定: 
- * NRF5X_REG_MODE_DCDC 等の定数がエラーになる場合は 1 を直接指定します。
- */
+/* Zephyr 4.1 対応: DCDCレギュレータ有効化 (1 = DCDC) */
 &reg1 {
-    regulator-initial-mode = <1>; 
+    regulator-initial-mode = <1>;
 };
 
 &xiao_serial { status = "disabled"; };
@@ -26,29 +22,30 @@
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
         
-        /* D8 (P0.26) */
-        interrupt-gpios = <&gpio0 26 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; 
+        /* D8 (P0.26) を割り込みピンに使用 */
+        interrupt-gpios = <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         
-        gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>,   // A0
-                <&gpio0 3 GPIO_ACTIVE_HIGH>,   // A1
-                <&gpio0 28 GPIO_ACTIVE_HIGH>,  // A2
-                <&gpio0 29 GPIO_ACTIVE_HIGH>,  // A3
-                <&gpio1 11 GPIO_ACTIVE_HIGH>,  // D6
-                <&gpio1 12 GPIO_ACTIVE_HIGH>;  // D7
+        /* IO 0~5 (A0~A3, D6, D7) */
+        gpios = <&xiao_d 0 GPIO_ACTIVE_HIGH>,
+                <&xiao_d 1 GPIO_ACTIVE_HIGH>,
+                <&xiao_d 2 GPIO_ACTIVE_HIGH>,
+                <&xiao_d 3 GPIO_ACTIVE_HIGH>,
+                <&xiao_d 6 GPIO_ACTIVE_HIGH>,
+                <&xiao_d 7 GPIO_ACTIVE_HIGH>;
     };
 
-    /* エンコーダー定義 (重複を削除して一つにまとめました) */
     left_encoder_1: encoder_left_1 {
         compatible = "alps,ec11";
-        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D10
-        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D9
+        a-gpios = <&xiao_d 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D10
+        b-gpios = <&xiao_d 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D9
         steps = <80>;
         status = "okay";
     };
 
+    /* NFCピン (D11/D12相当) を使用するエンコーダー */
     left_encoder_2: encoder_left_2 {
         compatible = "alps,ec11";
-        a-gpios = <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // NFC1
+        a-gpios = <&gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // NFC1
         b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // NFC2
         steps = <80>;
         status = "okay";
