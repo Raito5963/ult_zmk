@@ -1,18 +1,15 @@
-#include <nordic/nrf52840_qiaa.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
 #include "ult.dtsi"
 
-/* Zephyr 4.1: NFCピンをGPIOとして使用 */
-&uicr {
+/* Zephyr 4.1 / nRF52840: 
+   ラベル参照 (&uicr) でエラーが出る場合は、フルパスで指定します */
+&{/uicr} {
     nfct-pins-as-gpios;
 };
 
-/* Zephyr 4.1: DC/DC mode設定 */
-&reg1 {
-    regulator-initial-mode = <NRF5X_REG_MODE_DCDC>;
+&{/soc/peripheral@40000000/regulator@4000} {
+    regulator-initial-mode = <0x01>; /* NRF5X_REG_MODE_DCDC */
 };
-
-&xiao_serial { status = "disabled"; };
 
 / {
     chosen {
@@ -23,37 +20,16 @@
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
         
-        interrupt-gpios = <&gpio1 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // D8
-        gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>,   // A0/D0 = P0.02
-                <&gpio0 3 GPIO_ACTIVE_HIGH>,   // A1/D1 = P0.03
-                <&gpio0 28 GPIO_ACTIVE_HIGH>,  // A2/D2 = P0.28
-                <&gpio0 29 GPIO_ACTIVE_HIGH>,  // A3/D3 = P0.29
-                <&gpio1 11 GPIO_ACTIVE_HIGH>,  // D6 = P1.11
-                <&gpio1 12 GPIO_ACTIVE_HIGH>;  // D7 = P1.12
+        /* D8 = P0.26 なので &gpio0 26 に修正（回路図準拠） */
+        interrupt-gpios = <&gpio0 26 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; 
+        
+        gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>,   // A0
+                <&gpio0 3 GPIO_ACTIVE_HIGH>,   // A1
+                <&gpio0 28 GPIO_ACTIVE_HIGH>,  // A2
+                <&gpio0 29 GPIO_ACTIVE_HIGH>,  // A3
+                <&gpio1 11 GPIO_ACTIVE_HIGH>,  // D6
+                <&gpio1 12 GPIO_ACTIVE_HIGH>;  // D7
     };
-
-    left_encoder_1: encoder_left_1 {
-        compatible = "alps,ec11";
-        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D10
-        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D9
-        steps = <80>;
-        status = "okay";
-    };
-
-    left_encoder_2: encoder_left_2 {
-        compatible = "alps,ec11";
-        a-gpios = <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // NFC1 (P0.09)
-        b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // NFC2 (P0.10)
-        steps = <80>;
-        status = "okay";
-    };
-
-    sensors: sensors {
-        compatible = "zmk,keymap-sensors";
-        sensors = <&left_encoder_1 &left_encoder_2>;
-        triggers-per-rotation = <20>;
-    };
-};
 
     left_encoder_1: encoder_left_1 {
         compatible = "alps,ec11";
