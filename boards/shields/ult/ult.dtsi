@@ -3,7 +3,12 @@
 / {
     chosen {
         zmk,matrix-transform = &default_transform;
+        /* システム（起動）・バッテリー用（赤） */
+        zmk,battery-led = &red_led;
+        /* Bluetoothの状態表示用（青） */
+        zmk,bluetooth-led = &blue_led;
     };
+
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <12>;
@@ -15,5 +20,17 @@ RC(3,1) RC(2,4) RC(2,0) RC(1,3) RC(0,5) RC(0,2)                  RC(0,8) RC(0,11
 RC(3,2) RC(2,5) RC(2,1) RC(1,4) RC(1,0) RC(0,3)                  RC(0,9) RC(1,6) RC(1,10) RC(2,7) RC(2,11) RC(3,8)
                 RC(3,4) RC(3,5) RC(4,0) RC(4,1) RC(4,2)  RC(4,8) RC(4,7) RC(4,6) RC(3,11) RC(3,10)
         >;
+    };
+
+    leds {
+        compatible = "gpio-leds";
+        blue_led: led_0 {
+            gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
+            label = "Blue LED";
+        };
+        red_led: led_1 {
+            gpios = <&gpio1 0 GPIO_ACTIVE_LOW>; // 赤 P1.00
+            label = "Red LED";
+        };
     };
 };
