@@ -3,10 +3,7 @@
 / {
     chosen {
         zmk,matrix-transform = &default_transform;
-        /* システム（起動）・バッテリー用（赤） */
-        zmk,battery-led = &red_led;
-        /* Bluetoothの状態表示用（青） */
-        zmk,bluetooth-led = &blue_led;
+        // ※以前あった battery-led などの指定は削除します
     };
 
     default_transform: keymap_transform_0 {
@@ -22,15 +19,13 @@ RC(3,2) RC(2,5) RC(2,1) RC(1,4) RC(1,0) RC(0,3)                  RC(0,9) RC(1,6)
         >;
     };
 
-    leds {
-        compatible = "gpio-leds";
-        blue_led: led_0 {
-            gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
-            label = "Blue LED";
-        };
-        red_led: led_1 {
-            gpios = <&gpio0 26 GPIO_ACTIVE_LOW>; // 赤 P1.00
-            label = "Red LED";
-        };
+    /* rgbled-widget 用のアダプター定義 */
+    rgbled_widget: rgbled_widget {
+        compatible = "zmk,rgbled-widget";
+        label = "RGBLED_WIDGET";
+        /* Xiao BLE の標準ピンアサイン */
+        red-gpios = <&gpio0 26 GPIO_ACTIVE_LOW>;   // 赤 (P0.26)
+        green-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;  // 緑 (P0.06)
+        blue-gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;  // 青 (P0.30)
     };
 };
