@@ -38,32 +38,32 @@
                 <&inc_dec_kp LC(TAB) LC(LS(TAB))>;
 
             bindings = <
-&kp ESC    &kp Q      &kp L                &kp U         &kp MINUS  &kp ESC     &kp F       &kp W            &kp R      &kp Y      &kp P  &kp BSPC
-&kp TAB    &kp E      &kp I                &kp A         &kp O      &kp TAB     &kp K       &kp T            &kp N      &kp S      &kp H  &kp SQT
-&kp LCTRL  &kp Z      &kp X                &kp C         &kp V      &caps_word  &kp G       &kp D            &kp M      &kp J      &kp B  &kp RET
-&kp LSHFT  &kp ENTER  &lt LOWER LA(GRAVE)  &kp LEFT_WIN  &kp C_PP   &kp C_PREV  &kp C_NEXT  &lt 2 BACKSPACE  &kp SPACE  &kp COMMA
+&kp ESC    &kp Q        &kp L            &kp U         &kp MINUS  &kp ESC       &kp F          &kp W          &kp R        &kp Y      &kp P  &kp BSPC
+&kp TAB    &kp E        &kp I            &kp A         &kp O      &kp TAB       &kp K          &kp T          &kp N        &kp S      &kp H  &kp SQT
+&kp LCTRL  &kp Z        &kp X            &kp C         &kp V      &caps_word    &kp G          &kp D          &kp M        &kp J      &kp B  &kp RET
+&kp LSHFT  &lt 1 ENTER  &lt 3 LA(GRAVE)  &kp LEFT_WIN  &kp C_PP   &kp LA(LEFT)  &kp LA(RIGHT)  &kp BACKSPACE  &lt 2 SPACE  &kp COMMA
             >;
         };
 
-        lower_layer {
-            display-name = "Lower";
+        number_layer {
+            display-name = "number";
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN &inc_dec_kp UP DOWN &inc_dec_kp RIGHT LEFT>;
             bindings = <
 &trans  &kp N9        &kp N8        &kp N7        &kp N6        &kp N5        &kp AMPERSAND    &kp LESS_THAN     &kp PLUS        &kp ASTERISK  &kp COLON      &kp DEL
 &trans  &kp N4        &kp N3        &kp N2        &kp N1        &kp N0        &kp EXCLAMATION  &kp EQUAL         &kp TILDE       &kp SLASH     &kp SEMICOLON  &trans
 &trans  &bt BT_SEL 4  &bt BT_SEL 3  &bt BT_SEL 2  &bt BT_SEL 1  &bt BT_SEL 0  &kp BACKSLASH    &kp GREATER_THAN  &kp UNDERSCORE  &kp PERCENT   &kp QUESTION   &trans
-&trans  &trans        &trans        &trans        &trans        &trans        &trans           &trans            &trans          &kp PERIOD
+&trans  &trans        &trans        &trans        &trans        &kp C_PREV    &kp C_NEXT       &trans            &trans          &kp PERIOD
             >;
         };
 
-        raise_layer {
-            display-name = "Raise";
+        program_layer {
+            display-name = "program";
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN &inc_dec_kp UP DOWN &inc_dec_kp RIGHT LEFT>;
             bindings = <
-&trans  &kp CARET             &kp LEFT_BRACKET      &kp DOUBLE_QUOTES  &kp RIGHT_BRACKET      &kp AT_SIGN  &trans  &trans    &kp UP    &trans     &trans  &trans
-&trans  &kp NON_US_BACKSLASH  &kp LEFT_PARENTHESIS  &kp SQT            &kp RIGHT_PARENTHESIS  &kp HASH     &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &trans  &trans
-&trans  &kp PIPE              &kp LEFT_BRACE        &kp GRAVE          &kp RIGHT_BRACE        &kp DOLLAR   &trans  &trans    &trans    &trans     &trans  &trans
-&trans  &trans                &trans                &trans             &trans                 &trans       &trans  &trans    &trans    &trans
+&trans  &kp CARET             &kp LEFT_BRACKET      &kp DOUBLE_QUOTES  &kp RIGHT_BRACKET      &kp AT_SIGN  &trans  &trans    &kp UP    &trans     &kp LS(LG(S))  &trans
+&trans  &kp NON_US_BACKSLASH  &kp LEFT_PARENTHESIS  &kp SQT            &kp RIGHT_PARENTHESIS  &kp HASH     &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &kp LG(G)      &trans
+&trans  &kp PIPE              &kp LEFT_BRACE        &kp GRAVE          &kp RIGHT_BRACE        &kp DOLLAR   &trans  &trans    &trans    &trans     &trans         &trans
+&trans  &trans                &trans                &trans             &kp C_MUTE             &trans       &trans  &trans    &trans    &trans
             >;
         };
 
