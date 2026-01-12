@@ -1,16 +1,8 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include "ult.dtsi"
 
-/* Zephyr 4.1 対応: NFCピンをGPIOとして使用するために必須  */
-&uicr {
-    nfct-pins-as-gpios;
-};
-
-/* Zephyr 4.1 対応: 電源効率のためのDCDC有効化 [cite: 6] */
-&reg1 {
-    regulator-initial-mode = <1>;
-};
-
+&uicr { nfct-pins-as-gpios; };
+&reg1 { regulator-initial-mode = <1>; };
 &xiao_serial { status = "disabled"; };
 
 / {
@@ -21,37 +13,52 @@
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-charlieplex";
         wakeup-source;
-        
-        //interrupt-gpios = <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        gpios = <&gpio0 2  GPIO_ACTIVE_HIGH>, // IO 0 (A0/D0)
-                <&gpio0 3  GPIO_ACTIVE_HIGH>, // IO 1 (A1/D1)
-                <&gpio0 28 GPIO_ACTIVE_HIGH>, // IO 2 (A2/D2)
-                <&gpio0 29 GPIO_ACTIVE_HIGH>, // IO 3 (A3/D3)
-                <&gpio1 11 GPIO_ACTIVE_HIGH>, // IO 4 (A6/D6)
-                <&gpio1 12 GPIO_ACTIVE_HIGH>; // IO 5 (A7/D7)
+        gpios = <&gpio0 2  GPIO_ACTIVE_HIGH>, // IO 0
+                <&gpio0 3  GPIO_ACTIVE_HIGH>, // IO 1
+                <&gpio0 28 GPIO_ACTIVE_HIGH>, // IO 2
+                <&gpio0 29 GPIO_ACTIVE_HIGH>, // IO 3
+                <&gpio1 11 GPIO_ACTIVE_HIGH>, // IO 4
+                <&gpio1 12 GPIO_ACTIVE_HIGH>; // IO 5
     };
 
-    /* 左側エンコーダー1 (D10, D9) [cite: 12, 13, 14] */
+    /* --- 左側エンコーダー (実体) --- */
     left_encoder_1: encoder_left_1 {
         compatible = "alps,ec11";
-        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D10 (P1.15)
-        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // D9 (P1.14)
+        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <80>;
         status = "okay";
     };
 
-    /* 左側エンコーダー2 (NFCピン使用) [cite: 15, 16, 17] */
     left_encoder_2: encoder_left_2 {
         compatible = "alps,ec11";
-        a-gpios = <&gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // NFC1 (P0.09)
-        b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // NFC2 (P0.10)
+        a-gpios = <&gpio0 9  (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <80>;
         status = "okay";
     };
 
+    /* --- 右側エンコーダー (ダミー: ビルドエラー回避用) --- */
+    right_encoder_1: encoder_right_1 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio0 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; /* ダミーピン */
+        b-gpios = <&gpio0 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        steps = <80>;
+        status = "disabled"; /* 無効化 */
+    };
+
+    right_encoder_2: encoder_right_2 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio0 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio0 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        steps = <80>;
+        status = "disabled";
+    };
+
+    /* センサーリストには全て記載する */
     sensors: sensors {
         compatible = "zmk,keymap-sensors";
-        sensors = <&left_encoder_1 &left_encoder_2>;
+        sensors = <&left_encoder_1 &left_encoder_2 &right_encoder_1 &right_encoder_2>;
         triggers-per-rotation = <20>;
     };
 };
