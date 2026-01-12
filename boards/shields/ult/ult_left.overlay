@@ -55,7 +55,3 @@
         triggers-per-rotation = <20>;
     };
 };
-
-&default_transform {
-    col-offset = <0>;
-};
