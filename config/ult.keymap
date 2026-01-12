@@ -38,10 +38,10 @@
                 <&inc_dec_kp LC(TAB) LC(LS(TAB))>;
 
             bindings = <
-&kp ESC    &kp Q        &kp L            &kp U         &kp MINUS  &kp ESC       &kp F          &kp W          &kp R        &kp Y      &kp P  &kp BSPC
-&kp TAB    &kp E        &kp I            &kp A         &kp O      &kp TAB       &kp K          &kp T          &kp N        &kp S      &kp H  &kp SQT
-&kp LCTRL  &kp Z        &kp X            &kp C         &kp V      &caps_word    &kp G          &kp D          &kp M        &kp J      &kp B  &kp RET
-&kp LSHFT  &lt 1 ENTER  &lt 3 LA(GRAVE)  &kp LEFT_WIN  &kp C_PP   &kp LA(LEFT)  &kp LA(RIGHT)  &kp BACKSPACE  &lt 2 SPACE  &kp COMMA
+&kp LCMD   &kp Q        &kp L            &kp U     &kp MINUS   &kp ESC       &kp F          &kp W          &kp R        &kp Y      &kp P  &kp HOME
+&kp LALT   &kp E        &kp I            &kp A     &kp O       &kp TAB       &kp K          &kp T          &kp N        &kp S      &kp H  &kp END
+&kp LCTRL  &kp Z        &kp X            &kp C     &kp V       &caps_word    &kp G          &kp D          &kp M        &kp J      &kp B  &kp DEL
+&kp LSHFT  &lt 1 ENTER  &lt 3 LA(GRAVE)  &kp C_PP  &kp C_MUTE  &kp LA(LEFT)  &kp LA(RIGHT)  &kp BACKSPACE  &lt 2 SPACE  &kp COMMA
             >;
         };
 
